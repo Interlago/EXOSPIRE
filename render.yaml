@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: my-static-site
-    env: static
-    buildCommand: ""
-    staticPublishPath: .
-    pullRequestPreviewsEnabled: false
