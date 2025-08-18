@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXOSPIRE - Курсы по криптотрейдингу</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'purple-custom': '#8B5CF6',
+                        'purple-dark': '#7C3AED',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1b69 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(139, 92, 246, 0.4), 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+        
+        .card-hover:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            transition: all 0.3s ease;
+            min-height: 48px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+        
+        .icon-circle {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        
+        .animation-delay-300 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+        
+        .stars-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        
+        .star-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .star-2 { top: 20%; left: 80%; animation-delay: 0.5s; }
+        .star-3 { top: 30%; left: 20%; animation-delay: 1s; }
+        .star-4 { top: 40%; left: 90%; animation-delay: 1.5s; }
+        .star-5 { top: 50%; left: 15%; animation-delay: 2s; }
+        .star-6 { top: 60%; left: 70%; animation-delay: 2.5s; }
+        .star-7 { top: 70%; left: 30%; animation-delay: 3s; }
+        .star-8 { top: 80%; left: 85%; animation-delay: 0.3s; }
+        .star-9 { top: 15%; left: 50%; animation-delay: 0.8s; }
+        .star-10 { top: 25%; left: 60%; animation-delay: 1.3s; }
+        .star-11 { top: 35%; left: 40%; animation-delay: 1.8s; }
+        .star-12 { top: 45%; left: 75%; animation-delay: 2.3s; }
+        .star-13 { top: 55%; left: 5%; animation-delay: 2.8s; }
+        .star-14 { top: 65%; left: 95%; animation-delay: 0.1s; }
+        .star-15 { top: 75%; left: 55%; animation-delay: 0.6s; }
+        .star-16 { top: 85%; left: 25%; animation-delay: 1.1s; }
+        .star-17 { top: 12%; left: 35%; animation-delay: 1.6s; }
+        .star-18 { top: 22%; left: 45%; animation-delay: 2.1s; }
+        .star-19 { top: 32%; left: 65%; animation-delay: 2.6s; }
+        .star-20 { top: 42%; left: 85%; animation-delay: 0.4s; }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .glass-effect:hover::before {
+            left: 100%;
+        }
+        
+        .glass-button {
+            background: rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+            min-height: 48px;
+            touch-action: manipulation;
+        }
+        
+        .glass-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.3s;
+        }
+        
+        .glass-button:hover::before {
+            left: 100%;
+        }
+        
+        .glass-button:active {
+            transform: scale(0.95);
+            background: rgba(139, 92, 246, 0.3);
+        }
+        
+        .shimmer-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #1f1f3a, #2d1b4a, #3a2b5a, #4a3b6a, #5a4b7a);
+            background-size: 800% 800%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+        }
+        
+        .animated-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(139, 92, 246, 0.05) 50%, transparent 70%);
+            background-size: 200% 200%;
+            animation: overlayShift 10s ease infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes overlayShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .section-gradient {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 25%, #374151 50%, #1f2937 75%, #111827 100%);
+            background-size: 400% 400%;
+            animation: sectionGradientShift 20s ease infinite;
+        }
+        
+        @keyframes sectionGradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .modern-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .particles-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: floatUp 8s linear infinite;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        .particle-1 { left: 5%; animation-delay: 0s; }
+        .particle-2 { left: 15%; animation-delay: 1s; }
+        .particle-3 { left: 25%; animation-delay: 2s; }
+        .particle-4 { left: 35%; animation-delay: 3s; }
+        .particle-5 { left: 45%; animation-delay: 4s; }
+        .particle-6 { left: 55%; animation-delay: 5s; }
+        .particle-7 { left: 65%; animation-delay: 6s; }
+        .particle-8 { left: 75%; animation-delay: 7s; }
+        .particle-9 { left: 85%; animation-delay: 0.5s; }
+        .particle-10 { left: 95%; animation-delay: 1.5s; }
+        .particle-11 { left: 10%; animation-delay: 2.5s; }
+        .particle-12 { left: 20%; animation-delay: 3.5s; }
+        .particle-13 { left: 30%; animation-delay: 4.5s; }
+        .particle-14 { left: 40%; animation-delay: 5.5s; }
+        .particle-15 { left: 50%; animation-delay: 6.5s; }
+        .particle-16 { left: 60%; animation-delay: 7.5s; }
+        .particle-17 { left: 70%; animation-delay: 0.3s; }
+        .particle-18 { left: 80%; animation-delay: 1.3s; }
+        .particle-19 { left: 90%; animation-delay: 2.3s; }
+        .particle-20 { left: 12%; animation-delay: 3.3s; }
+        .particle-21 { left: 22%; animation-delay: 4.3s; }
+        .particle-22 { left: 32%; animation-delay: 5.3s; }
+        .particle-23 { left: 42%; animation-delay: 6.3s; }
+        .particle-24 { left: 52%; animation-delay: 7.3s; }
+        .particle-25 { left: 62%; animation-delay: 0.8s; }
+
+        /* Адаптивные стили */
+        @media (max-width: 640px) {
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
+            }
+            
+            .mobile-fade-in {
+                animation: mobileSlideUp 0.6s ease-out forwards;
+            }
+            
+            @keyframes mobileSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+        
+        .touch-feedback {
+            transition: all 0.1s ease;
+        }
+        
+        .touch-feedback:active {
+            transform: scale(0.98);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <!-- Responsive Header -->
+    <header class="bg-black/90 backdrop-blur-sm fixed w-full z-50 border-b border-purple-custom/20">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Social Links -->
+                <div class="flex items-center space-x-3 md:space-x-6">
+                    <a href="https://t.me/+DMkTMA9BKFY5NTVi" target="_blank" class="bg-blue-500 hover:bg-blue-600 p-2.5 md:p-3 rounded-full text-white transition-all duration-300 hover:scale-110 touch-feedback">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/exospire?igsh=eHc1eHF0ZXQ3cDY1&utm_source=qr" target="_blank" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 p-2.5 md:p-3 rounded-full text-white transition-all duration-300 hover:scale-110 touch-feedback">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Logo -->
+                <div class="absolute left-1/2 transform -translate-x-1/2">
+                    <button onclick="scrollToTop()" class="text-xl md:text-2xl lg:text-4xl font-bold glass-effect px-3 md:px-6 py-1 md:py-2 rounded-full hover:scale-105 transition-all duration-300 cursor-pointer touch-feedback">
+                        <span class="text-white">EXO</span><span class="text-purple-custom">SPIRE</span>
+                    </button>
+                </div>
+                
+                <!-- Contact Button -->
+                <div class="flex items-center space-x-4">
+                    <a href="https://t.me/exospire" target="_blank" class="glass-button px-3 md:px-6 py-1 md:py-2 rounded-full text-white font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2 text-sm md:text-base touch-feedback">
+                        <span>Связаться</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero and Courses Section -->
+    <section id="home" class="animated-gradient min-h-screen pt-16 md:pt-20 pb-12 md:pb-20 relative overflow-hidden">
+        <!-- Starry Background -->
+        <div class="stars-bg">
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+            <div class="star star-4"></div>
+            <div class="star star-5"></div>
+            <div class="star star-6"></div>
+            <div class="star star-7"></div>
+            <div class="star star-8"></div>
+            <div class="star star-9"></div>
+            <div class="star star-10"></div>
+            <div class="star star-11"></div>
+            <div class="star star-12"></div>
+            <div class="star star-13"></div>
+            <div class="star star-14"></div>
+            <div class="star star-15"></div>
+            <div class="star star-16"></div>
+            <div class="star star-17"></div>
+            <div class="star star-18"></div>
+            <div class="star star-19"></div>
+            <div class="star star-20"></div>
+        </div>
+        
+        <!-- Floating Particles -->
+        <div class="particles-bg">
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+            <div class="particle particle-4"></div>
+            <div class="particle particle-5"></div>
+            <div class="particle particle-6"></div>
+            <div class="particle particle-7"></div>
+            <div class="particle particle-8"></div>
+            <div class="particle particle-9"></div>
+            <div class="particle particle-10"></div>
+            <div class="particle particle-11"></div>
+            <div class="particle particle-12"></div>
+            <div class="particle particle-13"></div>
+            <div class="particle particle-14"></div>
+            <div class="particle particle-15"></div>
+            <div class="particle particle-16"></div>
+            <div class="particle particle-17"></div>
+            <div class="particle particle-18"></div>
+            <div class="particle particle-19"></div>
+            <div class="particle particle-20"></div>
+            <div class="particle particle-21"></div>
+            <div class="particle particle-22"></div>
+            <div class="particle particle-23"></div>
+            <div class="particle particle-24"></div>
+            <div class="particle particle-25"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <!-- Hero Content -->
+            <div class="text-center max-w-4xl mx-auto flex items-center justify-center min-h-screen">
+                <div class="animate-fade-in-up md:animate-fade-in-up mobile-fade-in">
+                    <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 text-white">
+                        Освойте искусство трейдинга
+                    </h1>
+                    <p class="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-6 md:mb-8 leading-relaxed animation-delay-300 px-4">
+                        Получите знания которые изменят вашу финансовую жизнь
+                    </p>
+                    <button onclick="scrollToCourses()" class="glass-button text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold shimmer-effect touch-feedback">
+                        Выбрать курс
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Courses Content -->
+            <div id="courses" class="mt-16 md:mt-24">
+                <div class="text-center mb-8 md:mb-16">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">Выбери свой путь</h2>
+                </div>
+                
+                <!-- Desktop: 3 columns, Mobile: 1 column -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-sm md:max-w-6xl mx-auto">
+                    <!-- Standard Course -->
+                    <div class="card-hover glass-effect modern-shadow rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col h-full">
+                        <div class="text-center flex-grow">
+                            <div class="icon-circle w-12 h-12 md:w-16 lg:w-20 md:h-16 lg:h-20 bg-gradient-to-br from-purple-500/30 to-purple-600/30 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 border border-purple-400/30">
+                                <svg class="w-6 h-6 md:w-8 lg:w-10 md:h-8 lg:h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-1 md:mb-2 text-white">Standart</h3>
+                            <p class="text-purple-400 text-xs md:text-sm font-semibold mb-3 md:mb-4 tracking-wider">БАЗОВЫЙ УРОВЕНЬ</p>
+                            <div class="text-xl md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6">₽24,990</div>
+                            
+                            <ul class="text-left space-y-1 md:space-y-2 lg:space-y-4 mb-4 md:mb-6 lg:mb-8 text-gray-300 text-xs md:text-sm lg:text-base">
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Основы трейдинга
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Торговые стратегии
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Технический анализ
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Управление рисками
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    9 месяцев поддержки
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="buyCourse('Standart')" class="glass-button w-full py-3 md:py-4 rounded-xl md:rounded-2xl font-semibold text-sm md:text-base lg:text-lg mt-auto text-white touch-feedback">
+                            Купить курс
+                        </button>
+                    </div>
+
+                    <!-- Premium Course -->
+                    <div class="card-hover glass-effect modern-shadow rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col h-full relative border-2 border-purple-500/50">
+                        <div class="text-center flex-grow">
+                            <div class="icon-circle w-12 h-12 md:w-16 lg:w-20 md:h-16 lg:h-20 bg-gradient-to-br from-purple-500/30 to-purple-600/30 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 border border-purple-400/30">
+                                <svg class="w-6 h-6 md:w-8 lg:w-10 md:h-8 lg:h-10 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-1 md:mb-2 text-white">Premium</h3>
+                            <p class="text-purple-400 text-xs md:text-sm font-semibold mb-3 md:mb-4 tracking-wider">ПРОДВИНУТЫЙ УРОВЕНЬ</p>
+                            <div class="text-xl md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6">₽49,990</div>
+                            
+                            <ul class="text-left space-y-1 md:space-y-2 lg:space-y-4 mb-4 md:mb-6 lg:mb-8 text-gray-300 text-xs md:text-sm lg:text-base">
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Всё из Standart
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Продвинутые стратегии
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Психология трейдинга
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Советы экспертов
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    9 месяцев поддержки
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="buyCourse('Premium')" class="glass-button w-full py-3 md:py-4 rounded-xl md:rounded-2xl font-semibold text-sm md:text-base lg:text-lg mt-auto text-white shimmer-effect touch-feedback">
+                            Купить курс
+                        </button>
+                    </div>
+
+                    <!-- Elite Course -->
+                    <div class="card-hover glass-effect modern-shadow rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col h-full">
+                        <div class="text-center flex-grow">
+                            <div class="icon-circle w-12 h-12 md:w-16 lg:w-20 md:h-16 lg:h-20 bg-gradient-to-br from-purple-500/30 to-purple-600/30 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 border border-purple-400/30">
+                                <svg class="w-6 h-6 md:w-8 lg:w-10 md:h-8 lg:h-10 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm2.7-2h8.6l.9-5.4-2.1 1.4L12 8l-3.1 2L6.8 8.6L7.7 14z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-1 md:mb-2 text-white">Elite</h3>
+                            <p class="text-purple-400 text-xs md:text-sm font-semibold mb-3 md:mb-4 tracking-wider">ПРОФЕССИОНАЛЬНЫЙ</p>
+                            <div class="text-xl md:text-2xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6">₽99,990</div>
+                            
+                            <ul class="text-left space-y-1 md:space-y-2 lg:space-y-4 mb-4 md:mb-6 lg:mb-8 text-gray-300 text-xs md:text-sm lg:text-base">
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Все из Premium
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    VIP сообщество
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Расширенное обучение
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    Эксклюзивные материалы
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-4 h-4 md:w-5 lg:w-6 md:h-5 lg:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
+                                        <svg class="w-2.5 h-2.5 md:w-3 lg:w-4 md:h-3 lg:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    1 год поддержки
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="buyCourse('Elite')" class="glass-button w-full py-3 md:py-4 rounded-xl md:rounded-2xl font-semibold text-sm md:text-base lg:text-lg mt-auto text-white touch-feedback">
+                            Купить курс
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Warning Section -->
+                <div class="max-w-sm md:max-w-4xl mx-auto mt-6 md:mt-8 lg:mt-12">
+                    <div class="glass-effect rounded-xl md:rounded-2xl p-3 md:p-4 lg:p-6 border border-white/30 bg-white/5">
+                        <div class="flex items-center justify-center space-x-3">
+                            <div class="text-white text-lg md:text-xl">⚠</div>
+                            <p class="text-white font-semibold text-xs md:text-sm lg:text-base text-center">
+                                При покупке необходимо ввести точную сумму выбранного курса
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offer Section -->
+    <section class="py-6 md:py-8 lg:py-16 bg-gray-900 relative">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-sm md:max-w-4xl mx-auto">
+                <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6 lg:mb-8 text-purple-custom">Важная информация</h2>
+                <div class="glass-effect modern-shadow rounded-xl md:rounded-2xl lg:rounded-3xl p-3 md:p-4 lg:p-8">
+                    <div class="space-y-3 md:space-y-4 lg:space-y-6 text-gray-300 text-xs md:text-sm leading-relaxed">
+                        <h3 class="text-sm md:text-base lg:text-lg font-semibold text-white mb-2 md:mb-3 lg:mb-4">Публичная оферта</h3>
+                        <p>Данное предложение является публичной офертой в соответствии со статьей 437 ГК РФ. Оплачивая курс, вы принимаете условия данной оферты.</p>
+                        
+                        <p class="text-white font-semibold bg-white/10 p-2 md:p-3 lg:p-4 rounded-lg text-xs md:text-sm">
+                            <strong>ВАЖНО:</strong> Покупая курс, вы понимаете и соглашаетесь с тем, что:
+                        </p>
+                        
+                        <ul class="list-disc list-inside ml-2 md:ml-4 space-y-1 md:space-y-2 text-xs md:text-sm">
+                            <li>Торговля криптовалютами связана с высокими рисками</li>
+                            <li>Курс предоставляет только теоретические знания и практические инструкции</li>
+                            <li>Ваш успех в торговле зависит исключительно от применения полученных знаний</li>
+                            <li>Автор не несет ответственности за ваши торговые решения и их результаты</li>
+                            <li>Возможны как прибыли, так и убытки при торговле</li>
+                            <li>Возврат средств за курс не предусмотрен</li>
+                        </ul>
+                        
+                        <h4 class="text-purple-custom font-semibold mt-4 md:mt-6 text-xs md:text-sm">Условия доступа</h4>
+                        <ul class="list-disc list-inside ml-2 md:ml-4 space-y-1 md:space-y-2 text-xs md:text-sm">
+                            <li>Доступ к курсу предоставляется после полной оплаты</li>
+                            <li>Материалы курса защищены авторским правом</li>
+                            <li>Запрещена передача доступа третьим лицам</li>
+                            <li>Техническая поддержка предоставляется согласно выбранному тарифу</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6 md:py-8 lg:py-12 relative">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center">
+                <div class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
+                    <span class="text-white">EXO</span><span class="text-purple-custom">SPIRE</span>
+                </div>
+                <p class="text-gray-400 mb-3 md:mb-4 text-sm md:text-base">Профессиональное обучение криптотрейдингу</p>
+                <p class="text-gray-500 text-xs md:text-sm mb-4 md:mb-6">Торговля криптовалютами связана с высокими рисками. Инвестируйте ответственно.</p>
+
+                <div class="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-gray-800 text-gray-500 text-xs md:text-sm">
+                    © 2024 EXOSPIRE. Все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-effect rounded-xl md:rounded-2xl p-4 md:p-6 lg:p-8 max-w-sm md:max-w-lg w-full border border-purple-custom/20">
+            <div class="text-center">
+                <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">Покупка курса</h3>
+                <p id="courseTitle" class="text-purple-custom mb-3 md:mb-4 lg:mb-6 text-sm md:text-base"></p>
+                <p id="coursePrice" class="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6"></p>
+                
+                <div class="space-y-3 md:space-y-4 lg:space-y-6">
+                    <h4 class="text-base md:text-lg font-semibold text-white">Способы оплаты:</h4>
+                    
+                    <!-- Bank Payment -->
+                    <div class="glass-effect rounded-lg md:rounded-xl p-3 md:p-4 border border-purple-custom/20">
+                        <h5 class="font-semibold text-purple-custom mb-2 md:mb-3 text-sm md:text-base">💳 Банковская карта</h5>
+                        <a href="https://www.tinkoff.ru/rm/r_wtvOPySygF.zytNxXYIBo/7s2S637209" target="_blank" class="inline-block glass-button px-4 md:px-6 py-2 md:py-3 rounded-full text-white font-semibold text-sm md:text-base transition-colors touch-feedback text-center">
+                            Оплатить RUB
+                        </a>
+                    </div>
+                    
+                    <!-- Crypto Payment -->
+                    <div class="glass-effect rounded-lg md:rounded-xl p-3 md:p-4 border border-purple-custom/20">
+                        <h5 class="font-semibold text-purple-custom mb-2 md:mb-3 text-sm md:text-base">₿ Криптовалюта</h5>
+                        <button onclick="showCryptoDetails()" id="cryptoBtn" class="glass-button px-4 md:px-6 py-2 md:py-3 rounded-full text-white font-semibold text-sm md:text-base transition-colors mb-3 md:mb-4 touch-feedback text-center">
+                            Оплатить USDT
+                        </button>
+                        
+                        <div id="cryptoDetails" class="hidden">
+                            <p id="usdtPrice" class="text-xl md:text-2xl font-bold text-green-400 mb-2 md:mb-3"></p>
+                            <p class="text-xs md:text-sm text-gray-400 mb-2">TRON (TRC20)</p>
+                            <div class="bg-black/30 rounded-lg p-2 md:p-3 mb-3">
+                                <p class="text-xs md:text-sm text-gray-300 break-all font-mono">TEzYAqFVEmFx9VCsFJUFC4TvNqoXvD5UoL</p>
+                            </div>
+                            <button onclick="copyAddress()" class="glass-button px-3 md:px-4 py-2 rounded-full text-xs md:text-sm transition-colors text-white touch-feedback">
+                                Копировать адрес
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/10 border border-white/30 rounded-lg p-3 md:p-4 mt-4 md:mt-6">
+                    <p class="text-white text-xs md:text-sm font-medium">
+                        ⚠ После покупки необходимо связаться с исполнителем
+                    </p>
+                </div>
+                
+                <button onclick="closeModal()" class="w-full glass-button py-3 md:py-4 rounded-full mt-6 md:mt-8 text-white text-sm md:text-base touch-feedback">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToCourses() {
+            document.getElementById('courses').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const coursePrices = {
+            'Standart': { rub: 24990, usd: 250 },
+            'Premium': { rub: 49990, usd: 500 },
+            'Elite': { rub: 99990, usd: 1000 }
+        };
+
+        let currentCourse = '';
+
+        function buyCourse(courseName) {
+            currentCourse = courseName;
+            document.getElementById('courseTitle').textContent = `Курс: ${courseName}`;
+            const price = coursePrices[currentCourse];
+            document.getElementById('coursePrice').textContent = `₽${price.rub.toLocaleString()}`;
+            document.getElementById('usdtPrice').textContent = `$${price.usd} USDT`;
+            document.getElementById('cryptoDetails').classList.add('hidden');
+            document.getElementById('purchaseModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showCryptoDetails() {
+            document.getElementById('cryptoDetails').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('purchaseModal').classList.add('hidden');
+            document.getElementById('cryptoDetails').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function copyAddress() {
+            const address = 'TEzYAqFVEmFx9VCsFJUFC4TvNqoXvD5UoL';
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(address).then(() => {
+                    showToast('Адрес кошелька скопирован!');
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(address);
+                });
+            } else {
+                fallbackCopyTextToClipboard(address);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast('Адрес кошелька скопирован!');
+                } else {
+                    showToast('Скопируйте вручную: ' + text);
+                }
+            } catch (err) {
+                showToast('Скопируйте вручную: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white px-4 py-2 rounded-lg z-50 text-sm';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Закрытие модального окна при клике вне его
+        document.getElementById('purchaseModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Предотвращение скролла при открытом модальном окне
+        document.addEventListener('touchmove', function(e) {
+            if (document.getElementById('purchaseModal').classList.contains('hidden') === false) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97147ec383d27a99',t:'MTc1NTU1MjQ0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
